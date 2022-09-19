@@ -19,7 +19,7 @@ class Pessoa(Base):
 
 def main():
     engine = create_engine(url=URL)
-    #Base.metadata.drop_all(bind=engine)
+    # Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
     # mysql> DESC Pessoa;
 
