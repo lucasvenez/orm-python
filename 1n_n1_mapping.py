@@ -16,7 +16,11 @@ class Pessoa(Base):
     id_pessoa = Column(Integer, primary_key=True)
     nome = Column(String(150), nullable=False)
 
-    telefones = relationship("Telefone")
+    telefones = relationship("Telefone", backref="pessoa")
+
+    def __str__(self):
+        return "Pessoa(id_pessoa={}, nome=\"{}\")".format(
+            self.id_pessoa, self.nome)
 
 
 class Telefone(Base):
@@ -25,6 +29,10 @@ class Telefone(Base):
     numero = Column(String(20))
 
     id_pessoa = Column(Integer, ForeignKey("Pessoa.id_pessoa"))
+
+    def __str__(self):
+        return "Telefone(id_telefone={}, numero=\"{}\")".format(
+            self.id_telefone, self.numero)
 
 
 def main():
@@ -43,6 +51,26 @@ def main():
                 Telefone(numero="+551299999999{}".format(i)))
 
         session.add(pessoa)
+
+    with Session.begin() as session:
+
+        print("============================================")
+
+        pessoa = session.query(Pessoa).get(1)
+
+        print(pessoa)
+
+        for telefone in pessoa.telefones:
+            print("   * " + str(telefone))
+
+    with Session.begin() as session:
+
+        print("\n============================================")
+
+        telefone = session.query(Telefone).get(5)
+
+        print(telefone)
+        print(telefone.pessoa)
 
 
 if __name__ == "__main__":
