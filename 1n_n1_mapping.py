@@ -38,8 +38,9 @@ def main():
     with Session.begin() as session:
         pessoa = Pessoa(nome="Alice Rossinholi Venezian")
 
-        pessoa.telefones.append(
-            Telefone(numero="+5512999999999", id_pessoa=pessoa.id_pessoa))
+        for i in range(10):
+            pessoa.telefones.append(
+                Telefone(numero="+551299999999{}".format(i)))
 
         session.add(pessoa)
 
